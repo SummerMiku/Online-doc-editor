@@ -1,14 +1,15 @@
-import { createMemoryHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 
+import MainPage from "./components/MainPage.vue";
 import LogRegister from "./components/UserPage/LogRegister.vue";
 
 const routes = [
-  { path: "/", redirect: "/logregister" },
+  { path: "/home", component: MainPage },
   { path: "/logregister", component: LogRegister },
 ];
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
 });
 export default router;
