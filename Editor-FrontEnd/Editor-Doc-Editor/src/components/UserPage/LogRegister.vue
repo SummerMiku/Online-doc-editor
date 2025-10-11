@@ -16,43 +16,30 @@ function register() {
 <template>
     <div class=" bg-gray-200 w-full h-full flex justify-center items-center">
         <div class="container" :class="{ 'right-active': !isLogin }">
-
-
             <div class="log flex flex-col items-center justify-center">
                 <div class="head-topic">语雀</div>
-                <el-input v-model="userEmail" type="email" placeholder="请输入邮箱" @click="console.log(userEmail)"
-                    class="user-input" />
+                <el-input v-model="userEmail" placeholder="请输入邮箱" @click="console.log(userEmail)" class="user-input" />
                 <el-input v-model="userPassword" type="password" placeholder="请输入密码" @click="console.log(userPassword)"
                     class="user-input" />
-                <el-button>登录</el-button>
-                <el-button @click="isLogin = !isLogin">没有账号，去注册</el-button>
-            </div>
-            <div class="register flex flex-col items-center justify-center">
-                <div class="head-topic">语雀</div>
-                <el-input v-model="userEmail" type="email" placeholder="请输入邮箱" @click="console.log(userEmail)"
-                    class="user-input" />
-                <el-input v-model="userPassword" type="password" placeholder="请输入密码" @click="console.log(userPassword)"
-                    class="user-input" />
-                <el-input v-model="checkToken" type="text" placeholder="请输入验证码" @click="console.log(checkToken)"
-                    class="user-input" />
-                <el-button>注册</el-button>
-                <el-button @click="isLogin = !isLogin">已有账号，去登录</el-button>
+                <el-input v-if="!isLogin" v-model="checkToken" type="text" placeholder="请输入验证码"
+                    @click="console.log(checkToken)" class="user-input" />
+                <el-button v-if="isLogin" @click="login">登录</el-button>
+                <el-button v-else @click="register">注册</el-button>
             </div>
             <div class="overlay">
-                <div class="overlay-panel overlay-left">
+                <div class="overlay-panel left-0" v-show="!isLogin">
                     <h1>欢迎回来！</h1>
                     <p>登录以继续访问您的账户</p>
-                    <button class="ghost">登录</button>
+                    <el-button @click="isLogin = !isLogin">登录</el-button>
                 </div>
-                <div class="overlay-panel overlay-right">
-                    <h1>你好，朋友！</h1>
+                <div class="overlay-panel right-0" v-show="isLogin">
+                    <h1>没有账号？</h1>
                     <p>注册以开始新的旅程</p>
-                    <button class="ghost">注册</button>
+                    <el-button @click="isLogin = !isLogin">注册</el-button>
                 </div>
             </div>
         </div>
     </div>
-
 </template>
 <style scoped>
 .container {
@@ -74,8 +61,6 @@ function register() {
 .head-topic {
     font-size: 2rem;
     font-weight: bolder;
-    position: fixed;
-    top: 20%;
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
@@ -86,14 +71,6 @@ function register() {
     transition: all 0.5s ease-in-out;
     width: 50%;
     z-index: 2;
-}
-
-.register {
-    position: absolute;
-    right: 0;
-    transition: all 0.5s ease-in-out;
-    width: 50%;
-    z-index: 1;
 }
 
 .user-input {
@@ -114,7 +91,25 @@ function register() {
     z-index: 100;
 }
 
+.overlay-panel {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    transition: transform 0.5s ease-in-out;
+    background: linear-gradient(90deg, rgba(42, 123, 155, 1) 15%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 85%);
+}
+
 .container.right-active .overlay {
     transform: translateX(-100%);
+}
+
+.container.right-active .log {
+    transform: translateX(100%);
 }
 </style>
